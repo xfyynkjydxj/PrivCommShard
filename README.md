@@ -2,7 +2,7 @@
 
 This repository is reserved for the experimental code and data release associated with the manuscript:
 
-**PrivCommShard: a privacy-preserving dynamic sharding framework for consortium blockchain**
+**PrivCommShard: a privacy-aware and temporally stable sharding framework for consortium blockchains**
 
 ## Current Status
 
@@ -52,7 +52,7 @@ The dataset files are not currently included in this repository. Before using th
 The code release should include implementations for:
 
 1. weighted account-interaction graph construction;
-2. edge perturbation controlled by `epsilon`;
+2. randomized edge retention controlled by `epsilon`;
 3. temporal graph fusion controlled by `lambda`;
 4. Louvain-based community detection;
 5. history-aware shard assignment;
