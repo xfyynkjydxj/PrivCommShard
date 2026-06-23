@@ -1,96 +1,77 @@
-﻿# PrivCommShard Experimental Code and Data
+# PrivCommShard Experimental Code and Data
 
-This repository is reserved for the experimental code and data release associated with the manuscript:
+This repository contains the experimental code and release data for PrivCommShard, a dynamic sharding framework for consortium blockchain experiments.
 
-**PrivCommShard: a privacy-aware and temporally stable sharding framework for consortium blockchains**
+No manuscript source files are included in this repository. The repository is intended for code and data review only.
 
-## Current Status
+## Repository Contents
 
-This repository does **not** contain article text, article source files, article figures, or bibliography files. It is intended only for experimental code, datasets, processed results, and reproducibility materials.
+- `src/`: Python scripts for transaction graph construction, sharding baselines, PrivCommShard experiments, parameter analysis, and consensus/throughput simulation.
+- `data/ethereum_clean.txt`: cleaned Ethereum transaction dataset used by the scripts. The file is tab-separated and contains the columns `Unnamed: 0`, `TxHash`, `BlockHeight`, `TimeStamp`, `From`, `To`, `Value`, and `isError`.
+- `data/experiment_results*.csv`: parameter-sweep outputs for different shard counts.
+- `data/nmi_results*.csv`: NMI evaluation outputs.
+- `data/experiment_smoothed.csv`: smoothed result table used for plotting.
+- `results/figures/`: generated result figures.
 
-At the time of this cleanup, no executable experiment scripts, raw Ethereum trace files, processed datasets, or result tables were available for upload.
-
-## Planned Repository Structure
-
-When the experimental materials are available, use the following structure:
-
-```text
-PrivCommShard/
-├── README.md
-├── LICENSE
-├── requirements.txt
-├── data/
-│   ├── raw/                 # raw or externally linked Ethereum traces
-│   └── processed/           # processed transaction-window tables
-├── src/
-│   ├── graph_construction.py
-│   ├── edge_perturbation.py
-│   ├── temporal_fusion.py
-│   ├── community_detection.py
-│   ├── shard_assignment.py
-│   └── metrics.py
-├── experiments/
-│   ├── run_baselines.py
-│   ├── run_privcommshard.py
-│   └── parameter_sweep.py
-└── results/
-    ├── tables/
-    └── figures/
-```
-
-## Dataset Information
-
-The manuscript reports experiments on Ethereum transaction traces containing more than 100,000 transaction records. The evaluated shard configurations are `K = {4, 8, 16, 32, 64}`, with a default transaction-window size of 10,000 transactions and 10 consecutive windows.
-
-The dataset files are not currently included in this repository. Before using this repository as a formal reproducibility archive, add one of the following:
-
-1. the raw and processed dataset files, if redistribution is permitted; or
-2. a persistent public dataset link and scripts for preprocessing the downloaded data.
-
-## Code Information
-
-The code release should include implementations for:
-
-1. weighted account-interaction graph construction;
-2. randomized edge retention controlled by `epsilon`;
-3. temporal graph fusion controlled by `lambda`;
-4. Louvain-based community detection;
-5. history-aware shard assignment;
-6. CTX, NMI, ESR, SSI, latency, and TPS calculation;
-7. baseline comparison with Monoxide and ShardCutter;
-8. parameter-sweep experiments.
-
-No executable code is currently included because the local submission materials did not contain the experiment implementation.
-
-## Usage Instructions
-
-After code and data are added, the repository should provide commands such as:
-
-```bash
-python -m venv .venv
-pip install -r requirements.txt
-python experiments/run_privcommshard.py --config configs/default.yaml
-python experiments/run_baselines.py --config configs/default.yaml
-python experiments/parameter_sweep.py --config configs/parameter_sweep.yaml
-```
-
-These commands are placeholders until the actual implementation is added.
+Large intermediate files and raw dumps are not included because they exceed normal GitHub repository limits and are not required to run the released scripts.
 
 ## Requirements
 
-Requirements should be specified in `requirements.txt` when the code is released. Expected dependencies may include:
+Python 3.9 or later is recommended.
 
-- Python 3.10 or later
-- NumPy
-- pandas
-- NetworkX
-- python-louvain or another Louvain implementation
-- matplotlib
+Install dependencies with:
+
+```bash
+pip install -r requirements.txt
+```
+
+## Usage
+
+Run commands from the repository root. The scripts use relative paths such as `../data/...`, so execute experiment scripts from the `src` directory:
+
+```bash
+cd src
+python run_p_c_3d.py
+python tx_SC.py
+python test_01.py
+python test_02.py
+```
+
+Additional baseline and analysis scripts are also available in `src/`, including:
+
+- `run_CommunityShard.py`
+- `run_DYNASHARD.py`
+- `run_Estuary.py`
+- `run_Monoxide.py`
+- `run_ShardCutter.py`
+- `run_Temporal.py`
+- `run_nmi.py`
+- `run_data.py`
+- `run_3d.py`
+
+## Dataset Notes
+
+The released transaction file is `data/ethereum_clean.txt`. It is tab-separated and has already been filtered for successful transactions, non-empty addresses, non-self-loop transfers, and chronological order.
+
+If rebuilding the cleaned file from a raw dump, place the raw input as `data/ethereum_raw.csv` and run:
+
+```bash
+cd src
+python preprocess.py
+```
+
+The raw dump is not included in this repository.
+
+## Method Overview
+
+The main experiment scripts build transaction graphs from windowed blockchain transactions, apply structural perturbation and temporal graph fusion, detect communities, assign communities to shards, and report metrics such as CTX, SSI, ERR/RA, NMI, latency, and TPS.
+
+Baseline scripts provide comparable runs for static hashing, community-based sharding, temporal sharding, ShardCutter-style partitioning, Estuary-style assignment, and DynaShard-style assignment.
 
 ## Citation
 
-If using the future code or dataset release, cite the associated manuscript after publication.
+If this code or dataset is used in a publication, cite the associated PrivCommShard manuscript or repository record.
 
 ## License
 
-No license is currently assigned. Add a `LICENSE` file before releasing executable code or redistributable data.
+No explicit open-source license is provided yet. Contact the repository owner before reusing the code or dataset outside review and reproducibility purposes.
